@@ -57,7 +57,7 @@ const lemniscateCurve = new LemniscateCurve(1);
 
 // Create the tube geometry around the lemniscate curve
 
-const torusRadius = 1;
+const torusRadius = 0.5;
 const tubeRadius = 0.09;
 const radialSegments = 64;
 const tubularSegments = 128;
@@ -65,12 +65,9 @@ const torusGeometry = new THREE.TorusGeometry(torusRadius, tubeRadius, radialSeg
 const lemniscateGeometry = new THREE.TubeGeometry(lemniscateCurve, tubularSegments, tubeRadius, radialSegments, true);
 
 // Create a custom geometry for morphing
-const morphGeometry = new THREE.BufferGeometry();
-morphGeometry.setAttribute('position', torusGeometry.attributes.position.clone());
-morphGeometry.setAttribute('normal', torusGeometry.attributes.normal.clone());
-morphGeometry.setAttribute('uv', torusGeometry.attributes.uv.clone());
+const morphGeometry = torusGeometry.clone();
 morphGeometry.setAttribute('torusPosition', torusGeometry.attributes.position.clone());
-morphGeometry.setAttribute('lemniscatePosition', lemniscateGeometry.attributes.position);
+morphGeometry.setAttribute('lemniscatePosition', lemniscateGeometry.attributes.position.clone());
 
 // Create the morph material
 const morphMaterial = new THREE.ShaderMaterial({
@@ -85,30 +82,32 @@ const morphMaterial = new THREE.ShaderMaterial({
 });
 
 // Create the morph mesh
-const morphMesh = new THREE.Mesh(morphGeometry, morphMaterial);
-scene.add(morphMesh);
+
+
 
 // Add GUI control for morphing
 gui.add(morphMaterial.uniforms.uMorphFactor, 'value', 0, 1, 0.01).name('Morph Factor');
 
 //hologram
 
-// const hologramMaterial = new THREE.ShaderMaterial({
-//     uniforms: {
-//         uTime: { value: 0 },
-//         uColor: { value: new THREE.Color(materialParameters.Color) }
-//     },
-//     vertexShader: hologramVertexShader,
-//     fragmentShader: hologramFragmentShader,
-//     transparent: true,
-//     //the problem with the sircle plane meshes are double sides
-//     //fixed by inverting the normals on the fragment shader by checking if gl_FrontFacing is false
-//     // still visible a bit but not as bad to fully fix add depthWrite= false
-//     depthWrite: false,
-//     side: THREE.DoubleSide,
-//     transparent: true,
-//     blending: THREE.AdditiveBlending,
-// });
+const hologramMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color(materialParameters.Color) }
+    },
+    // vertexShader: hologramVertexShader,
+    // fragmentShader: hologramFragmentShader,
+    // transparent: true,
+    //the problem with the sircle plane meshes are double sides
+    //fixed by inverting the normals on the fragment shader by checking if gl_FrontFacing is false
+    // still visible a bit but not as bad to fully fix add depthWrite= false
+    // depthWrite: false,
+    // side: THREE.DoubleSide,
+    // transparent: true,
+    // blending: THREE.AdditiveBlending,
+});
+const morphMesh = new THREE.Mesh(morphGeometry, morphMaterial);
+scene.add(morphMesh);
 //infinit
 // const lemniscateMaterial = new THREE.ShaderMaterial({
 //     uniforms: {

@@ -10,7 +10,5 @@ void main() {
     gl_Position = projectionMatrix * viewMatrix * modelPosition;
     
     // Interpolate normals
-    vec3 torusNormal = normalize(normalMatrix * normal);
-    vec3 lemniscateNormal = normalize(normalMatrix * (lemniscatePosition - vec3(0.0, 0.0, 0.0)));
-    vNormal = normalize(mix(torusNormal, lemniscateNormal, uMorphFactor));
+     vNormal = normalize(normalMatrix * normal);
 }
