@@ -45,14 +45,7 @@ scene.background = new THREE.Color(0x1E1E2E);
 /**
  * Water
  */
-// Geometry
-const waterGeometry = new THREE.PlaneGeometry(2, 2, 512, 512)
-const waterBasicMaterial = new THREE.MeshBasicMaterial({color:0xffffff})
-const waterPlane = new THREE.Mesh(waterGeometry, waterBasicMaterial)
-//scene.add(waterPlane)
-waterPlane.rotation.x = - Math.PI * 0.5
-waterPlane.position.y = -1
-waterPlane.receiveShadow = true
+
 //Color
 debugObject.depthColor = '#186691'
 debugObject.surfaceColor= '#9bd8ff'
@@ -156,9 +149,11 @@ const waterMaterial = new THREE.ShaderMaterial({
 //     waterMaterial.uniforms.uSurfaceColor.value.set(debugObject.surfaceColor);
 // })
 // Mesh
-const water = new THREE.Mesh(waterGeometry, waterMaterial)
-water.rotation.x = - Math.PI * 0.5
-//scene.add(water)
+// const waterGeometry = new THREE.PlaneGeometry(2, 2, 512, 512)
+// const water = new THREE.Mesh(waterGeometry, waterMaterial)
+// water.rotation.x = - Math.PI * 0.5
+// water.position.y = -2
+// scene.add(water)
 
 /**
  * Sizes
@@ -196,12 +191,30 @@ const cubeGeometry = new THREE.TorusKnotGeometry(0.5, 0.2, 64, 16);
 
 // Create a mesh with the cube geometry and crystal material
 const crystalCube = new THREE.Mesh(tubeGeometry, hologramMaterial);
-
+// Geometry
+// const waterGeometry = new THREE.PlaneGeometry(2, 2, 512, 512)
+// const waterBasicMaterial = new THREE.MeshBasicMaterial({color:0xffffff})
+// const waterPlane = new THREE.Mesh(waterGeometry, hologramMaterial)
+// scene.add(waterPlane)
+// waterPlane.rotation.x = - Math.PI * 0.5
+// waterPlane.position.y = -1
+// waterPlane.receiveShadow = true
 // Position the cube (adjust as needed)
 //crystalCube.position.set(0, 0.5, 0);
 crystalCube.castShadow = true;
 // Add the crystal cube to the scene
 scene.add(crystalCube);
+// const boxoneGeometry = new THREE.BoxGeometry(1,1,1)
+// const boxone = new THREE.Mesh(boxoneGeometry, hologramMaterial)
+//scene.add(boxone)
+// boxone.position.y = -1.5
+
+//torus
+const torusGeometry = new THREE.TorusGeometry(1, 0.4, 16, 64, Math.PI * 2);
+ // Red color for the torus
+const torus = new THREE.Mesh(torusGeometry, hologramMaterial);
+scene.add(torus);
+torus.position.x = -3
 
 window.addEventListener('resize', () =>
 {
@@ -223,7 +236,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 2)
+camera.position.set(0, 0, 6)
 scene.add(camera)
 
 // Controls
